@@ -22,7 +22,7 @@ public class CoinMarketAPIConnector implements IAPIConnector {
 
 
     private Token convertToToken(JSONObject object) {
-        
+       Token t = new Token(); 
     }
     
 }
