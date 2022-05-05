@@ -63,4 +63,9 @@ public class Token {
     }
     private double percentChange24h;
   }
+
+  @Override
+  public String toString() {
+    return name + ' ' + symbol + ' ' + coinQuote + dollarQuote;
+  }
 }
