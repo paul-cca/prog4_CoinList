@@ -1,8 +1,6 @@
 package at.ac.fhstp.crs.api;
 
-import at.ac.fhstp.crs.Quote;
 import at.ac.fhstp.crs.QuoteBuilder;
-import at.ac.fhstp.crs.Token;
 import at.ac.fhstp.crs.Token;
 import at.ac.fhstp.crs.TokenBuilder;
 import java.net.URI;
@@ -11,11 +9,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class CoinMarketAPIConnector implements IAPIConnector {
