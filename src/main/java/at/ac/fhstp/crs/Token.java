@@ -1,11 +1,14 @@
 package at.ac.fhstp.crs;
 
-import at.ac.fhstp.crs.api.IAPIConnector.TIMESPAN;
-import java.util.Dictionary;
+import java.util.List;
+import java.util.Optional;
 
 public class Token {
 
   private final String name, symbol;
+  private String slug;
+
+  private List<Quote> quotes;
 
   public Token(String symbol, String name) {
     this.symbol = symbol;
@@ -21,48 +24,40 @@ public class Token {
   }
 
   public Quote getCoinQuote() {
-    return coinQuote;
-  }
-
-  public void setCoinQuote(Quote coinQuote) {
-    this.coinQuote = coinQuote;
+    return quotes
+      .stream()
+      .filter(q -> q.getSymbol().equals(this.symbol))
+      .findFirst()
+      .get();
   }
 
   public Quote getDollarQuote() {
-    return dollarQuote;
+    return quotes
+      .stream()
+      .filter(q -> q.getSymbol().equals("USD"))
+      .findFirst()
+      .get();
   }
 
-  public void setDollarQuote(Quote dollarQuote) {
-    this.dollarQuote = dollarQuote;
+  public Optional<Quote> getQuote(String quote) {
+    return quotes.stream().filter(q -> q.getSymbol().equals(quote)).findFirst();
   }
 
-  private Quote coinQuote;
-  private Quote dollarQuote;
+  public void addQuote(Quote q) {
+    quotes.add(q);
+  }
 
-  public class Quote {
 
-    private float price;
-    private Dictionary<TIMESPAN, Double> percentChange;
+  public void setSlug(String slug) {
+    this.slug = slug;
+  }
 
-    public float getPrice() {
-      return price;
-    }
-
-    public void setPrice(float price) {
-      this.price = price;
-    }
-
-    public double getPercentChange(TIMESPAN timespan) {
-      return percentChange.get(timespan);
-    }
-
-    public void setPercentChange(TIMESPAN timespan, double percentChange) {
-      this.percentChange.put(timespan, percentChange);
-    }
+  public String getSlug() {
+    return slug;
   }
 
   @Override
   public String toString() {
-    return name + ' ' + symbol + ' ' + coinQuote + dollarQuote;
+    return name + ' ' + symbol + ' ' + getCoinQuote() + getDollarQuote();
   }
 }
