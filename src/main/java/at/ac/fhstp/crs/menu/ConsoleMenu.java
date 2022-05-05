@@ -15,17 +15,19 @@ public class ConsoleMenu implements IMenu{
 
     @Override
     public void displayPopularTokens() {
-        List<Token> tokenList = null;
+        //List<Token> tokenList = null;
 
         String apiKey = Env.get("API_KEY");
 
-        assert tokenList != null;
+        System.out.println(apiKey);
+
+        //assert tokenList != null;
 
         System.out.println("NAME    |   SHORTCUT    |   COINQUOTE   |   USD-QUOTE");
 
-        for (Token token:tokenList) {
-            System.out.println(token);
-        }
+       // for (Token token:tokenList) {
+       //     System.out.println(token);
+       // }
 
     }
 
