@@ -15,11 +15,7 @@ public class ConsoleMenu implements IMenu{
 
     @Override
     public void displayPopularTokens() {
-        //List<Token> tokenList = null;
-
-        String apiKey = Env.get("API_KEY");
-
-        System.out.println(apiKey);
+        //List<Token> tokenList =
 
         //assert tokenList != null;
 
