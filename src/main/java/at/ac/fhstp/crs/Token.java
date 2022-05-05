@@ -58,6 +58,6 @@ public class Token {
 
   @Override
   public String toString() {
-    return name + ' ' + symbol + ' ' + coinQuote + dollarQuote;
+    return name + ' ' + symbol + ' ' + getCoinQuote() + getDollarQuote();
   }
 }
