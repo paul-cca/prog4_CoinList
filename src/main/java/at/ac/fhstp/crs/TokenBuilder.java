@@ -1,24 +1,24 @@
 package at.ac.fhstp.crs;
 
-import at.ac.fhstp.crs.Token.Quote;
-
 public class TokenBuilder {
-   private Token token;
-   
-   public TokenBuilder(String symbol, String name) {
-       this.token = new Token(symbol, name);
-   }
 
-   public TokenBuilder setCoinQuote(Quote quote) {
-        this.token.setCoinQuote(quote);
-        return this;
-   } 
-   public TokenBuilder setDollarQuote(Quote quote) {
-        this.token.setDollarQuote(quote);
-        return this;
-   } 
+  private Token token;
 
-   public Token toToken() {
-       return this.token;
-   }
+  public TokenBuilder(String symbol, String name) {
+    this.token = new Token(symbol, name);
+  }
+
+  public TokenBuilder setSlug(String slug) {
+    token.setSlug(slug);
+    return this;
+  }
+
+  public TokenBuilder addQuote(Quote q) {
+    token.addQuote(q);
+    return this;
+  }
+
+  public Token toToken() {
+    return this.token;
+  }
 }
