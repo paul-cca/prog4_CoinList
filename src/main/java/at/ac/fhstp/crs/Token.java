@@ -6,7 +6,6 @@ public class Token {
   private Quote coinQuote;
   private Quote dollarQuote;
 
-  
 
   public class Quote {
     private float price;
