@@ -2,13 +2,15 @@ package at.ac.fhstp.crs.api;
 
 import java.util.List;
 
-public class IAPIConnector {
+import at.ac.fhstp.crs.Token;
+
+public interface IAPIConnector {
    List<Token> getPopularTokens();
    List<Token> getTopMoversToken(int amount, TIMESPAN timespan);
-}
-
-public enum TIMESPAN {
-   1_HOUR,
-   24_HOURS,
-   7_DAYS
+   
+  public enum TIMESPAN {
+     HOUR_1,
+     HOURS_24,
+     DAYS_7
+   } 
 }
