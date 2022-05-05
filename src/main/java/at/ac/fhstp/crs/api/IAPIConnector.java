@@ -5,7 +5,7 @@ import java.util.List;
 import at.ac.fhstp.crs.Token;
 
 public interface IAPIConnector {
-   List<Token> getPopularTokens();
+   List<Token> getPopularTokens(int amount);
    List<Token> getTopMoversToken(int amount, TIMESPAN timespan);
    
   public enum TIMESPAN {
