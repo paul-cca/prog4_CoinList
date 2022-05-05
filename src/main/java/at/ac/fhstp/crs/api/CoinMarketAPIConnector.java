@@ -51,8 +51,8 @@ public class CoinMarketAPIConnector implements IAPIConnector {
     HttpResponse<String> response = null;
 
     uriBuilder.append(sandboxURI);
-    uriBuilder.append(String.format("?%s=%i", "start", 1));
-    uriBuilder.append(String.format("&%s=%i", "limit", amount));
+    uriBuilder.append(String.format("?%s=%d", "start", 1));
+    uriBuilder.append(String.format("&%s=%d", "limit", amount));
     uriBuilder.append(String.format("&%s=%s", "convert", "EUR"));
     uri = uriBuilder.toString();
 
@@ -117,7 +117,7 @@ public class CoinMarketAPIConnector implements IAPIConnector {
       object.getString("name")
     );
 
-    String[] quoteNames = JSONObject.getNames(object.getJSONObject("qoute"));
+    String[] quoteNames = JSONObject.getNames(object.getJSONObject("quote"));
 
     Arrays
       .stream(quoteNames)

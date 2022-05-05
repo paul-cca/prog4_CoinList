@@ -17,7 +17,7 @@ public class App
     public static void main( String[] args )
     {
         IAPIConnector connector =CoinMarketAPIConnector.getInstance(Env.get("API_KEY"));
-        //List<Token> popToken = connector.getPopularTokens(20);
+        List<Token> popToken = connector.getPopularTokens(20);
 
         IMenu menu = new ConsoleMenu();
         menu.displayPopularTokens();
