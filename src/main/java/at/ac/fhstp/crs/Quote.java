@@ -2,6 +2,7 @@ package at.ac.fhstp.crs;
 
 import at.ac.fhstp.crs.api.IAPIConnector.TIMESPAN;
 import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class Quote {
 
@@ -11,6 +12,7 @@ public class Quote {
 
   public Quote(String symbol) {
     this.symbol = symbol;
+    percentChange = new Hashtable<TIMESPAN, Float>();
   }
 
   public String getSymbol() {

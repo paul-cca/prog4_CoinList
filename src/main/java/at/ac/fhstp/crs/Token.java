@@ -1,5 +1,6 @@
 package at.ac.fhstp.crs;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ public class Token {
   public Token(String symbol, String name) {
     this.symbol = symbol;
     this.name = name;
+    quotes = new ArrayList<Quote>();
   }
 
   public String getName() {

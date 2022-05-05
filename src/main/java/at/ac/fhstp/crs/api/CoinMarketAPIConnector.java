@@ -123,7 +123,7 @@ public class CoinMarketAPIConnector implements IAPIConnector {
       .stream(quoteNames)
       .forEach(
         q -> {
-          JSONObject o = object.getJSONObject(q);
+          JSONObject o = object.getJSONObject("quote").getJSONObject(q);
           QuoteBuilder qb = new QuoteBuilder(q);
           qb
             .setPrice(o.getFloat("price"))
