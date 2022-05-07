@@ -1,18 +1,16 @@
 package at.ac.fhstp.crs.api;
 
-import at.ac.fhstp.crs.QuoteBuilder;
-import at.ac.fhstp.crs.Token;
-import at.ac.fhstp.crs.TokenBuilder;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.json.JSONObject;
+import at.ac.fhstp.crs.dto.Token;
+import at.ac.fhstp.crs.dto.TokenBuilder;
 
 public class CoinMarketAPIConnector implements IAPIConnector {
 
@@ -22,13 +20,11 @@ public class CoinMarketAPIConnector implements IAPIConnector {
   private static final String proURI =
     "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
   private static final int maxAmountPerCall = 5000;
-  private JSONObject json;
-  private int amount;
 
   private static CoinMarketAPIConnector instance;
 
   private CoinMarketAPIConnector(String apiKey) {
-      this.apiKey = apiKey;
+    this.apiKey = apiKey;
   }
 
   public static CoinMarketAPIConnector getInstance(String apiKey) {
@@ -39,7 +35,7 @@ public class CoinMarketAPIConnector implements IAPIConnector {
     return instance;
   }
 
-  private void getTokens(int amount) {
+  public List<Token> getTokens(int amount) {
     if (amount > maxAmountPerCall) amount = maxAmountPerCall;
 
     HttpClient client = HttpClient.newHttpClient();
@@ -69,81 +65,18 @@ public class CoinMarketAPIConnector implements IAPIConnector {
     responseFuture.thenAccept(System.out::println);
     response = responseFuture.join();
 
-    json = new JSONObject(response.body());
-    this.amount = amount;
-  }
+    JSONObject o = new JSONObject(response.body());
 
-  @Override
-  public List<Token> getPopularTokens(int amount) {
     ArrayList<Token> tokenArrayList = new ArrayList<Token>();
-
-    if (
-      json == null ||
-      this.amount < ((amount > maxAmountPerCall) ? maxAmountPerCall : amount)
-    ) getTokens(amount);
-
-    json
+    o
       .getJSONArray("data")
       .forEach(
         item -> {
-          tokenArrayList.add(convertToToken((JSONObject) item));
+          tokenArrayList.add(new TokenBuilder((JSONObject) item).toToken());
         }
       );
+
     return tokenArrayList;
   }
 
-  @Override
-  public List<Token> getTopMoversToken(int amount, TIMESPAN timespan) {
-    ArrayList<Token> tokenArrayList = new ArrayList<Token>();
-
-    if (
-      json == null ||
-      this.amount < ((amount > maxAmountPerCall) ? maxAmountPerCall : amount)
-    ) getTokens(amount);
-
-    json
-      .getJSONArray("data")
-      .forEach(
-        item -> {
-          tokenArrayList.add(convertToToken((JSONObject) item));
-        }
-      );
-    return tokenArrayList;
-  }
-
-  private Token convertToToken(JSONObject object) {
-    TokenBuilder builder = new TokenBuilder(
-      object.getString("symbol"),
-      object.getString("name")
-    );
-
-    String[] quoteNames = JSONObject.getNames(object.getJSONObject("quote"));
-
-    Arrays
-      .stream(quoteNames)
-      .forEach(
-        q -> {
-          JSONObject o = object.getJSONObject("quote").getJSONObject(q);
-          QuoteBuilder qb = new QuoteBuilder(q);
-          qb
-            .setPrice(o.getFloat("price"))
-            .addPercentageChange(
-              TIMESPAN.HOUR_1,
-              o.getFloat("percent_change_1h")
-            )
-            .addPercentageChange(
-              TIMESPAN.HOURS_24,
-              o.getFloat("percent_change_24h")
-            )
-            .addPercentageChange(
-              TIMESPAN.DAYS_7,
-              o.getFloat("percent_change_7d")
-            );
-
-          builder.addQuote(qb.toQuote());
-        }
-      );
-
-    return builder.toToken();
-  }
 }

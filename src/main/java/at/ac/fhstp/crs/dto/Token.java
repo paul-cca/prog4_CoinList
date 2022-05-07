@@ -1,4 +1,4 @@
-package at.ac.fhstp.crs;
+package at.ac.fhstp.crs.dto;
 
 import java.util.ArrayList;
 import java.util.List;

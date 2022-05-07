@@ -1,6 +1,6 @@
-package at.ac.fhstp.crs;
+package at.ac.fhstp.crs.dto;
 
-import at.ac.fhstp.crs.api.IAPIConnector.TIMESPAN;
+import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
 
 public class QuoteBuilder {
 
@@ -16,10 +16,10 @@ public class QuoteBuilder {
   }
 
   public QuoteBuilder addPercentageChange(
-    TIMESPAN timespan,
+    ETokenChangePeriod ETokenChangePeriod,
     float percentChange
   ) {
-    quote.addPercentChange(timespan, percentChange);
+    quote.addPercentChange(ETokenChangePeriod, percentChange);
     return this;
   }
 

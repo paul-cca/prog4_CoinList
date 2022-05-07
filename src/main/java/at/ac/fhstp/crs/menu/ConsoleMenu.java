@@ -1,7 +1,8 @@
 package at.ac.fhstp.crs.menu;
 
-import at.ac.fhstp.crs.Token;
 import com.harium.dotenv.Env;
+
+import at.ac.fhstp.crs.dto.Token;
 
 import java.util.List;
 
