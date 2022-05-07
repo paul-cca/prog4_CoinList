@@ -66,6 +66,7 @@ public class CoinMarketAPIConnector implements IAPIConnector {
     response = responseFuture.join();
 
     JSONObject o = new JSONObject(response.body());
+    System.out.println(o.toString());
 
     ArrayList<Token> tokenArrayList = new ArrayList<Token>();
     o

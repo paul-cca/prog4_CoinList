@@ -33,14 +33,6 @@ public class Token {
       .get();
   }
 
-  public Quote getDollarQuote() {
-    return quotes
-      .stream()
-      .filter(q -> q.getSymbol().equals("USD"))
-      .findFirst()
-      .get();
-  }
-
   public Optional<Quote> getQuote(String quote) {
     return quotes.stream().filter(q -> q.getSymbol().equals(quote)).findFirst();
   }
@@ -60,6 +52,6 @@ public class Token {
 
   @Override
   public String toString() {
-    return name + ' ' + symbol + ' ' + getCoinQuote() + getDollarQuote();
+    return name + ' ' + symbol + ' ' + getCoinQuote() + getQuote("EUR");
   }
 }
