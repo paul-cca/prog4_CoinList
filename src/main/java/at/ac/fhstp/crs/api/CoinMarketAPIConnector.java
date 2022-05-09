@@ -15,25 +15,27 @@ import at.ac.fhstp.crs.dto.TokenBuilder;
 public class CoinMarketAPIConnector implements IAPIConnector {
 
     private final String apiKey;
+    private boolean sandbox = false;
     private static final String sandboxURI = "https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private static final String proURI = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private static final int maxAmountPerCall = 5000;
 
     private static CoinMarketAPIConnector instance;
 
-    private CoinMarketAPIConnector(String apiKey) {
+    private CoinMarketAPIConnector(String apiKey, boolean sandbox) {
         this.apiKey = apiKey;
+        this.sandbox = sandbox;
     }
 
-    public static CoinMarketAPIConnector getInstance(String apiKey)
+    public static CoinMarketAPIConnector getInstance(String apiKey, boolean sandbox)
     {
         if (instance == null)
-            instance = new CoinMarketAPIConnector(apiKey);
+            instance = new CoinMarketAPIConnector(apiKey, sandbox);
 
         return instance;
     }
 
-    public List<Token> getTokens(int amount, boolean sandbox)
+    public List<Token> getTokens(int amount)
     {
         if (amount > maxAmountPerCall)
             amount = maxAmountPerCall;
