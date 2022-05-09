@@ -25,7 +25,15 @@ public class ConsoleMenu implements IMenu{
             System.out.println("Got no data!");
         }
 
-        System.out.format("%-21s | %-8s | %12s | %-20s%n", "NAME", "SHORTCUT", "EUR-QUOTE", "24H-CHANGE");
+        System.out.format("%-21s %s %-8s %s %12s %s %-20s %n",
+                          "NAME",
+                          seperator,
+                          "SHORTCUT",
+                          seperator,
+                          "EUR-QUOTE",
+                          seperator,
+                          "24H-CHANGE");
+
         StringBuilder stringBuilder = new StringBuilder();
 
        for (Token token:tokenSortedByValue) {
