@@ -36,7 +36,7 @@ public class SortByValue implements ITokenFilterStrategy {
             }
         });
 
-        if(ascending) {
+        if(!ascending) {
             Collections.reverse(res);
         }
         return res;
