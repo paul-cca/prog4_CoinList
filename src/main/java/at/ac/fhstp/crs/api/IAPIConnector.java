@@ -5,5 +5,5 @@ import java.util.List;
 import at.ac.fhstp.crs.dto.Token;
 
 public interface IAPIConnector {
-   List<Token> getTokens(int amount, boolean sandbox);
+   List<Token> getTokens(int amount);
 }
