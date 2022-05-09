@@ -16,10 +16,14 @@ public class App
 {
     public static void main( String[] args )
     {
+        if(Env.get("API_KEY") == "CHANGE_ME" || Env.get("API_KEY") == null){
+            System.out.println("API_KEY invalid.");
+        }
+
         IAPIConnector connector =CoinMarketAPIConnector.getInstance(Env.get("API_KEY"));
-        //List<Token> popToken = connector.getPopularTokens(20);
+        List<Token> popToken = connector.getPopularTokens(20);
 
         IMenu menu = new ConsoleMenu();
-        menu.displayPopularTokens();
+        menu.displayPopularTokens(popToken);
     }
 }
