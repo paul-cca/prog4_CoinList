@@ -14,16 +14,15 @@ public class ConsoleMenu implements IMenu{
     }
 
     @Override
-    public void displayPopularTokens() {
-        //List<Token> tokenList =
+    public void displayPopularTokens(List<Token> tokenList) {
 
-        //assert tokenList != null;
+        assert tokenList != null;
 
         System.out.println("NAME    |   SHORTCUT    |   COINQUOTE   |   USD-QUOTE");
 
-       // for (Token token:tokenList) {
-       //     System.out.println(token);
-       // }
+       for (Token token:tokenList) {
+            System.out.println(token);
+       }
 
     }
 
