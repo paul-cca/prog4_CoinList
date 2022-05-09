@@ -25,6 +25,6 @@ public class App
         List<Token> tokenSortedByValue = strategy.filterTokens(connector.getTokens(100));
 
         IMenu menu = new ConsoleMenu();
-        menu.displayPopularTokens(popToken);
+        menu.displayPopularTokens(tokenSortedByValue);
     }
 }
