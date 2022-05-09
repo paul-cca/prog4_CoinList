@@ -19,7 +19,7 @@ public class ConsoleMenu implements IMenu{
     @Override
     public void displayTokens(IAPIConnector connector, ITokenFilterStrategy strategy) {
         //assert tokenList != null;
-        List<Token> tokenSortedByValue = strategy.filterTokens(connector.getTokens(100, false));
+        List<Token> tokenSortedByValue = strategy.filterTokens(connector.getTokens(100));
 
         if(tokenSortedByValue.isEmpty()){
             System.out.println("Got no data!");
