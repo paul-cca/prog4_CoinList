@@ -18,9 +18,9 @@ public class ConsoleMenu implements IMenu{
     @Override
     public void displayPopularTokens(List<Token> tokenList) {
 
-        assert tokenList != null;
+g        assert tokenList != null;
 
-        System.out.println("NAME    |   SHORTCUT    |   COINQUOTE   |   USD-QUOTE   |   24H-CHANGE");
+        System.out.println("NAME    |   SHORTCUT   |   EUR-QUOTE   |   24H-CHANGE");
 
         StringBuilder stringBuilder = new StringBuilder();
         String seperator = " | ";
@@ -30,7 +30,6 @@ public class ConsoleMenu implements IMenu{
                 stringBuilder.append(token.getName());
                 stringBuilder.append(seperator);
                 stringBuilder.append(token.getSlug());
-                stringBuilder.append(token.getCoinQuote());
                 stringBuilder.append(token.getQuote("EUR").get());
                 stringBuilder.append(token.getQuote("EUR").get().getPercentChange(ETokenChangePeriod.HOURS_24));
                 stringBuilder.append('\n');
