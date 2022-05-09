@@ -1,5 +1,6 @@
 package at.ac.fhstp.crs.menu;
 
+import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
 import com.harium.dotenv.Env;
 
 import at.ac.fhstp.crs.dto.Token;
@@ -19,11 +20,23 @@ public class ConsoleMenu implements IMenu{
 
         assert tokenList != null;
 
-        System.out.println("NAME    |   SHORTCUT    |   COINQUOTE   |   USD-QUOTE");
+        System.out.println("NAME    |   SHORTCUT    |   COINQUOTE   |   USD-QUOTE   |   24H-CHANGE");
+
+        StringBuilder stringBuilder = new StringBuilder();
+        String seperator = " | ";
 
        for (Token token:tokenList) {
-            System.out.println(token);
+            if(token.getQuote("EUR").isPresent()){
+                stringBuilder.append(token.getName());
+                stringBuilder.append(seperator);
+                stringBuilder.append(token.getSlug());
+                stringBuilder.append(token.getCoinQuote());
+                stringBuilder.append(token.getQuote("EUR").get());
+                stringBuilder.append(token.getQuote("EUR").get().getPercentChange(ETokenChangePeriod.HOURS_24));
+                stringBuilder.append('\n');
+            }
        }
+        System.out.println(stringBuilder);
 
     }
 
