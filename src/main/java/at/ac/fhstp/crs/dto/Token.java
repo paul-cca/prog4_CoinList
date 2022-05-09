@@ -1,5 +1,6 @@
-package at.ac.fhstp.crs;
+package at.ac.fhstp.crs.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ public class Token {
   public Token(String symbol, String name) {
     this.symbol = symbol;
     this.name = name;
+    quotes = new ArrayList<Quote>();
   }
 
   public String getName() {
@@ -27,14 +29,6 @@ public class Token {
     return quotes
       .stream()
       .filter(q -> q.getSymbol().equals(this.symbol))
-      .findFirst()
-      .get();
-  }
-
-  public Quote getDollarQuote() {
-    return quotes
-      .stream()
-      .filter(q -> q.getSymbol().equals("USD"))
       .findFirst()
       .get();
   }
@@ -58,6 +52,6 @@ public class Token {
 
   @Override
   public String toString() {
-    return name + ' ' + symbol + ' ' + getCoinQuote() + getDollarQuote();
+    return name + ' ' + symbol + ' ' + getCoinQuote() + getQuote("EUR");
   }
 }
