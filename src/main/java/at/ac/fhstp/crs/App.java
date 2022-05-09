@@ -20,7 +20,7 @@ public class App
             System.out.println("API_KEY invalid.");
         }
 
-        IAPIConnector connector = CoinMarketAPIConnector.getInstance(Env.get("API_KEY"), true);
+        IAPIConnector connector = CoinMarketAPIConnector.getInstance(Env.get("API_KEY"), false);
 
         ITokenFilterStrategy mostPopularStrategy = new SortByValue(true);
         ITokenFilterStrategy topMoverStrategy = new SortByChangeInPeriod(ETokenChangePeriod.HOURS_24,true);
