@@ -19,10 +19,9 @@ public class ConsoleMenu implements IMenu{
     }
 
     @Override
-    public void displayPopularTokens(IAPIConnector connector) {
+    public void displayTokens(IAPIConnector connector, ITokenFilterStrategy strategy) {
 
         //assert tokenList != null;
-        ITokenFilterStrategy strategy = new SortByValue(true);
         List<Token> tokenSortedByValue = strategy.filterTokens(connector.getTokens(100));
 
         if(tokenSortedByValue.isEmpty()){
@@ -47,10 +46,5 @@ public class ConsoleMenu implements IMenu{
             }
        }
         System.out.println(stringBuilder);
-    }
-
-    @Override
-    public void displayTopMoverTokens(List<Token> tokenList) {
-
     }
 }
