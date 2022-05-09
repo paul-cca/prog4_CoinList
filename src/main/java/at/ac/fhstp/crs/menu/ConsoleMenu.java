@@ -1,6 +1,9 @@
 package at.ac.fhstp.crs.menu;
 
+import at.ac.fhstp.crs.api.IAPIConnector;
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
+import at.ac.fhstp.crs.api.filters.ITokenFilterStrategy;
+import at.ac.fhstp.crs.api.filters.SortByValue;
 import com.harium.dotenv.Env;
 
 import at.ac.fhstp.crs.dto.Token;
@@ -16,31 +19,38 @@ public class ConsoleMenu implements IMenu{
     }
 
     @Override
-    public void displayPopularTokens(List<Token> tokenList) {
+    public void displayPopularTokens(IAPIConnector connector) {
 
-g        assert tokenList != null;
+        //assert tokenList != null;
+        ITokenFilterStrategy strategy = new SortByValue(true);
+        List<Token> tokenSortedByValue = strategy.filterTokens(connector.getTokens(100));
+
+        if(tokenSortedByValue.isEmpty()){
+            System.out.println("Got no data!");
+        }
 
         System.out.println("NAME    |   SHORTCUT   |   EUR-QUOTE   |   24H-CHANGE");
 
         StringBuilder stringBuilder = new StringBuilder();
         String seperator = " | ";
 
-       for (Token token:tokenList) {
+       for (Token token:tokenSortedByValue) {
             if(token.getQuote("EUR").isPresent()){
                 stringBuilder.append(token.getName());
                 stringBuilder.append(seperator);
                 stringBuilder.append(token.getSlug());
+                stringBuilder.append(seperator);
                 stringBuilder.append(token.getQuote("EUR").get());
+                stringBuilder.append(seperator);
                 stringBuilder.append(token.getQuote("EUR").get().getPercentChange(ETokenChangePeriod.HOURS_24));
                 stringBuilder.append('\n');
             }
        }
         System.out.println(stringBuilder);
-
     }
 
     @Override
-    public void displayTopMoverTokens() {
-        List<Token> tokenList;
+    public void displayTopMoverTokens(List<Token> tokenList) {
+
     }
 }
