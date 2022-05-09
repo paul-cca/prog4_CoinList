@@ -1,17 +1,12 @@
 package at.ac.fhstp.crs;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.when;
-import org.hamcrest.collection.IsArrayContaining;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.MatcherAssert.assertThat;
 import java.util.ArrayList;
@@ -76,14 +71,14 @@ public class AppTest {
                 when(apiConnector.getTokens(3)).thenReturn(tokens);
 
                 // sorting by price
-                ITokenFilterStrategy filterStrategy = new SortByValue(false);
+                ITokenFilterStrategy filterStrategy = new SortByValue(true);
                 List<Token> filtered = filterStrategy.filterTokens(apiConnector.getTokens(3));
                 assertThat(
                                 filtered.toArray(),
                                 arrayContaining(t2, t3, t1));
 
                 // sorting by price
-                filterStrategy = new SortByValue(true);
+                filterStrategy = new SortByValue(false);
                 filtered = filterStrategy.filterTokens(apiConnector.getTokens(3));
                 assertThat(filtered.toArray(),arrayContaining(t1, t3, t2));
         }
@@ -94,12 +89,12 @@ public class AppTest {
                 when(apiConnector.getTokens(3)).thenReturn(tokens);
 
                 // sorting by price
-                ITokenFilterStrategy filterStrategy = new SortByChangeInPeriod(ETokenChangePeriod.HOURS_24, true);
+                ITokenFilterStrategy filterStrategy = new SortByChangeInPeriod(ETokenChangePeriod.HOURS_24, false);
                 List<Token> filtered = filterStrategy.filterTokens(apiConnector.getTokens(3));
                 assertThat(filtered.toArray(),arrayContaining(t2, t3, t1));
 
                 // sorting by price
-                filterStrategy = new SortByValue(true);
+                filterStrategy = new SortByChangeInPeriod(ETokenChangePeriod.HOURS_24, true);
                 filtered = filterStrategy.filterTokens(apiConnector.getTokens(3));
                 assertThat(filtered.toArray(),arrayContaining(t1, t3, t2));
         }

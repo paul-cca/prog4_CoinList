@@ -39,7 +39,7 @@ public class SortByChangeInPeriod implements ITokenFilterStrategy {
         }
       }
     );
-    if(ascending) {
+    if(!ascending) {
       Collections.reverse(res);
     }
 
