@@ -19,10 +19,10 @@ public class App
             System.out.println("API_KEY invalid.");
         }
 
-        IAPIConnector connector =CoinMarketAPIConnector.getInstance(Env.get("API_KEY"));
+        IAPIConnector connector = CoinMarketAPIConnector.getInstance(Env.get("API_KEY"));
 
         ITokenFilterStrategy strategy = new SortByValue(true);
-        List<Token> tokenSortedByValue = strategy.filterTokens(connector.getTokens(100));
+        List<Token> tokenSortedByValue = strategy.filterTokens(connector.getTokens(100, true));
 
         IMenu menu = new ConsoleMenu();
         menu.displayPopularTokens(tokenSortedByValue);

@@ -18,7 +18,7 @@ public class ConsoleMenu implements IMenu{
     @Override
     public void displayPopularTokens(List<Token> tokenList) {
 
-g        assert tokenList != null;
+        assert tokenList != null;
 
         System.out.println("NAME    |   SHORTCUT   |   EUR-QUOTE   |   24H-CHANGE");
 
