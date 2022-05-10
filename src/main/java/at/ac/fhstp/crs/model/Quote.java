@@ -1,16 +1,16 @@
 package at.ac.fhstp.crs.model;
 
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -19,7 +19,7 @@ public class Quote extends AEntity<Quote> {
 
   private String symbol;
   private float price;
-  
+
   @OneToMany(fetch = FetchType.EAGER)
   private List<TokenChangeInPeriod> changeInPeriod = new ArrayList<TokenChangeInPeriod>();
 
@@ -43,8 +43,8 @@ public class Quote extends AEntity<Quote> {
   public double getPercentChange(ETokenChangePeriod period) {
     Optional<TokenChangeInPeriod> c = changeInPeriod
       .stream()
-      .findFirst()
-      .filter(p -> p.getPeriod() == period);
+      .filter(p -> p.getPeriod() == period)
+      .findFirst();
     if (c.isPresent()) {
       return c.get().getPrice();
     }
@@ -52,13 +52,14 @@ public class Quote extends AEntity<Quote> {
   }
 
   public List<TokenChangeInPeriod> getChangeInPeriods() {
-    return  changeInPeriod;
+    return changeInPeriod;
   }
+
   public void addPercentChange(ETokenChangePeriod period, float percentChange) {
     this.changeInPeriod.add(new TokenChangeInPeriod(period, percentChange));
   }
-  public void update(Quote obj)
-  {
+
+  public void update(Quote obj) {
     this.symbol = obj.symbol;
     this.price = obj.price;
   }

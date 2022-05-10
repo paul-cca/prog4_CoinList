@@ -4,6 +4,9 @@ import at.ac.fhstp.crs.model.Quote;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.TokenChangeInPeriod;
 import at.ac.fhstp.crs.service.AService;
+
+import com.harium.dotenv.Env;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,6 +19,7 @@ public class PeriodicApiFetcher {
     private AService<Token> tokenService;
     private AService<Quote> quoteService;
     private AService<TokenChangeInPeriod> tokenChangeInPeriodService;
+    private int tokenAmountToFetch;
 
 
     public PeriodicApiFetcher(IAPIConnector apiConnector, AService<Token> tokenService, AService<Quote> quoteService, AService<TokenChangeInPeriod> tokenChangeInPeriodService) {
@@ -23,13 +27,16 @@ public class PeriodicApiFetcher {
         this.tokenService = tokenService;
         this.quoteService = quoteService;
         this.tokenChangeInPeriodService = tokenChangeInPeriodService;
+
+        tokenAmountToFetch = Integer.parseInt(Env.get("TOKEN_AMOUNT"));
+
     }
 
     @Scheduled(fixedRate = 1000 * 600)
     public void fetchData() {
         tokenService.deleteAll();
 
-        for (Token token:apiConnector.getTokens(100)) {
+        for (Token token:apiConnector.getTokens(tokenAmountToFetch)) {
             for(Quote quote: token.getQuotes()) {
                 for (TokenChangeInPeriod tcp: quote.getChangeInPeriods()) {
                     tokenChangeInPeriodService.save(tcp);
