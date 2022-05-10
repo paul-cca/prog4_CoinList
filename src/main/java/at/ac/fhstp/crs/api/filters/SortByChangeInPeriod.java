@@ -1,12 +1,12 @@
 package at.ac.fhstp.crs.api.filters;
 
-import at.ac.fhstp.crs.dto.Token;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import at.ac.fhstp.crs.model.Token;
 
 public class SortByChangeInPeriod implements ITokenFilterStrategy {
 

@@ -14,8 +14,8 @@ import com.harium.dotenv.Env;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import at.ac.fhstp.crs.dto.Token;
-import at.ac.fhstp.crs.dto.TokenBuilder;
+import at.ac.fhstp.crs.model.Token;
+import at.ac.fhstp.crs.model.TokenBuilder;
 
 @Service
 

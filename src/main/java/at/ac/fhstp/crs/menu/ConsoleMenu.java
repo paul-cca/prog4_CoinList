@@ -5,7 +5,8 @@ import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
 import at.ac.fhstp.crs.api.filters.ITokenFilterStrategy;
 import at.ac.fhstp.crs.api.filters.SortByChangeInPeriod;
 import at.ac.fhstp.crs.api.filters.SortByValue;
-import at.ac.fhstp.crs.dto.Token;
+import at.ac.fhstp.crs.model.Token;
+
 import java.util.List;
 
 public class ConsoleMenu implements IMenu {

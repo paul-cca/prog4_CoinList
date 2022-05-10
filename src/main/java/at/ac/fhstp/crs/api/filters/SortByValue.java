@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import at.ac.fhstp.crs.dto.Token;
+import at.ac.fhstp.crs.model.Token;
 
 public class SortByValue implements ITokenFilterStrategy {
 

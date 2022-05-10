@@ -1,4 +1,4 @@
-package at.ac.fhstp.crs.dto;
+package at.ac.fhstp.crs.model;
 
 import java.util.Arrays;
 
