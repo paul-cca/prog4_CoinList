@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class AEntity {
+public abstract class AEntity<T> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,4 +19,6 @@ public abstract class AEntity {
   public void setId(Integer id) {
     this.id = id;
   }
+
+  public abstract void update(T obj);
 }

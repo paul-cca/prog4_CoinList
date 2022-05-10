@@ -1,19 +1,21 @@
 package at.ac.fhstp.crs.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Token extends AEntity {
+public class Token extends AEntity<Token> {
 
   private String name, symbol;
   private String slug;
@@ -55,5 +57,12 @@ public class Token extends AEntity {
   @Override
   public String toString() {
     return name + ' ' + symbol;
+  }
+
+  public void update(Token obj)
+  {
+    this.name = obj.getName();
+    this.symbol = obj.getSymbol();
+    this.slug = obj.getSlug();
   }
 }
