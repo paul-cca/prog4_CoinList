@@ -8,10 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+@AllArgsConstructor
+@Builder
 @Entity
 public class Quote extends AEntity {
 
-  private final String symbol;
+  private String symbol;
   private float price;
   
   @OneToMany(fetch = FetchType.EAGER)
