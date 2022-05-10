@@ -10,7 +10,7 @@ import java.util.stream.StreamSupport;
 
 public abstract class AService<T extends AEntity> {
 
-  private CrudRepository<T, Integer> repository;
+  protected CrudRepository<T, Integer> repository;
 
   public AService(CrudRepository<T, Integer> repository) {
     this.repository = repository;

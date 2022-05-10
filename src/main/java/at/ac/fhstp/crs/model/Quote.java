@@ -21,7 +21,7 @@ public class Quote extends AEntity<Quote> {
   private float price;
   
   @OneToMany(fetch = FetchType.EAGER)
-  private List<TokenChangeInPeriod> changeInPeriod;
+  private List<TokenChangeInPeriod> changeInPeriod = new ArrayList<TokenChangeInPeriod>();
 
   public Quote(String symbol) {
     this.symbol = symbol;

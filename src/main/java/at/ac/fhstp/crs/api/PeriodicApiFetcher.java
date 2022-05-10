@@ -25,7 +25,7 @@ public class PeriodicApiFetcher {
         this.tokenChangeInPeriodService = tokenChangeInPeriodService;
     }
 
-    @Scheduled(fixedRate = 1000 * 60)
+    @Scheduled(fixedRate = 1000 * 600)
     public void fetchData() {
         tokenService.deleteAll();
 
