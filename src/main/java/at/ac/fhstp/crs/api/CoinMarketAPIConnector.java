@@ -76,7 +76,10 @@ public class CoinMarketAPIConnector implements IAPIConnector {
                 .getJSONArray("data")
                 .forEach(
                         item -> {
-                            tokenArrayList.add(new TokenBuilder((JSONObject) item).toToken());
+                            tokenArrayList.add(
+                                new TokenBuilder(
+                                    (JSONObject) item).toToken()
+                            );
                         }
                 );
 
