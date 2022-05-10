@@ -30,7 +30,6 @@ public class PeriodicApiFetcher {
         tokenService.deleteAll();
 
         for (Token token:apiConnector.getTokens(100)) {
-            System.out.println("Saving: " + token.toString());
             for(Quote quote: token.getQuotes()) {
                 for (TokenChangeInPeriod tcp: quote.getChangeInPeriods()) {
                     tokenChangeInPeriodService.save(tcp);

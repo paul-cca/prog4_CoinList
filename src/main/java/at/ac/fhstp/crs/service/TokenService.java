@@ -1,13 +1,17 @@
 package at.ac.fhstp.crs.service;
 
+import at.ac.fhstp.crs.api.filters.ITokenFilterStrategy;
 import at.ac.fhstp.crs.model.Quote;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.TokenChangeInPeriod;
+
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TokenService extends AService<Token> {
+public class TokenService extends AService<Token> implements ITokenService {
 
   private AService<Quote> quoteService;
   private AService<TokenChangeInPeriod> tokenChangeInPeriodService;
@@ -32,5 +36,10 @@ public class TokenService extends AService<Token> {
     }
     repository.save(token);
     return token;
+  }
+
+  @Override
+  public List<Token> getAllFilteredBy(ITokenFilterStrategy strategy) {
+    return strategy.filterTokens(getAll());
   }
 }
