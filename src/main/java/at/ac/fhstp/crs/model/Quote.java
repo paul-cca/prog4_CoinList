@@ -1,11 +1,12 @@
-package at.ac.fhstp.crs.dto;
-
-import java.util.Dictionary;
-import java.util.Hashtable;
+package at.ac.fhstp.crs.model;
 
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
+import java.util.Dictionary;
+import java.util.Hashtable;
+import javax.persistence.Entity;
 
-public class Quote {
+@Entity
+public class Quote extends AEntity {
 
   private final String symbol;
   private float price;
@@ -32,7 +33,10 @@ public class Quote {
     return percentChange.get(ETokenChangePeriod);
   }
 
-  public void addPercentChange(ETokenChangePeriod ETokenChangePeriod, float percentChange) {
+  public void addPercentChange(
+    ETokenChangePeriod ETokenChangePeriod,
+    float percentChange
+  ) {
     this.percentChange.put(ETokenChangePeriod, percentChange);
   }
 }

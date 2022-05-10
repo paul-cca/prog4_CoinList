@@ -8,31 +8,28 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.harium.dotenv.Env;
+
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
+
 import at.ac.fhstp.crs.dto.Token;
 import at.ac.fhstp.crs.dto.TokenBuilder;
+
+@Service
 
 public class CoinMarketAPIConnector implements IAPIConnector {
 
     private final String apiKey;
-    private boolean sandbox = false;
+    private final boolean production;
     private static final String sandboxURI = "https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private static final String proURI = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private static final int maxAmountPerCall = 5000;
 
-    private static CoinMarketAPIConnector instance;
-
-    private CoinMarketAPIConnector(String apiKey, boolean sandbox) {
-        this.apiKey = apiKey;
-        this.sandbox = sandbox;
-    }
-
-    public static CoinMarketAPIConnector getInstance(String apiKey, boolean sandbox)
-    {
-        if (instance == null)
-            instance = new CoinMarketAPIConnector(apiKey, sandbox);
-
-        return instance;
+    public CoinMarketAPIConnector() {
+        apiKey = Env.get("API_KEY");
+        production = Env.get("ENV").equals("PROD");
     }
 
     public List<Token> getTokens(int amount)
@@ -47,7 +44,7 @@ public class CoinMarketAPIConnector implements IAPIConnector {
         String uri;
         HttpResponse<String> response;
 
-        uriBuilder.append((sandbox) ? sandboxURI : proURI);
+        uriBuilder.append((production) ? proURI : sandboxURI);
         uriBuilder.append(String.format("?%s=%d", "start", 1));
         uriBuilder.append(String.format("&%s=%d", "limit", amount));
         uriBuilder.append(String.format("&%s=%s", "convert", "EUR"));

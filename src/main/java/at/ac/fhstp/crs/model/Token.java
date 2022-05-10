@@ -1,10 +1,10 @@
-package at.ac.fhstp.crs.dto;
+package at.ac.fhstp.crs.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Token {
+public class Token extends AEntity {
 
   private final String name, symbol;
   private String slug;
