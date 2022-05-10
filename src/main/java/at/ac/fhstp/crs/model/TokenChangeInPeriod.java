@@ -2,9 +2,11 @@ package at.ac.fhstp.crs.model;
 
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 @Builder
+@NoArgsConstructor
 @Entity
 public class TokenChangeInPeriod extends AEntity<TokenChangeInPeriod> {
 

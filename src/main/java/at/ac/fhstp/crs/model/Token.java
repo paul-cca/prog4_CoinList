@@ -41,6 +41,10 @@ public class Token extends AEntity<Token> {
     return quotes.stream().filter(q -> q.getSymbol().equals(quote)).findFirst();
   }
 
+  public List<Quote> getQuotes() {
+    return  quotes;
+  }
+
   public void addQuote(Quote q) {
     quotes.add(q);
   }

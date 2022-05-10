@@ -3,6 +3,7 @@ package at.ac.fhstp.crs.model;
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
 public class Quote extends AEntity<Quote> {
@@ -49,6 +51,9 @@ public class Quote extends AEntity<Quote> {
     return 0;
   }
 
+  public List<TokenChangeInPeriod> getChangeInPeriods() {
+    return  changeInPeriod;
+  }
   public void addPercentChange(ETokenChangePeriod period, float percentChange) {
     this.changeInPeriod.add(new TokenChangeInPeriod(period, percentChange));
   }

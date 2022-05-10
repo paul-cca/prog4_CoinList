@@ -1,13 +1,12 @@
 package at.ac.fhstp.crs.service;
 
+import at.ac.fhstp.crs.model.AEntity;
+import org.springframework.data.repository.CrudRepository;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import org.springframework.data.repository.CrudRepository;
-
-import at.ac.fhstp.crs.model.AEntity;
 
 public abstract class AService<T extends AEntity> {
 
@@ -40,4 +39,8 @@ public abstract class AService<T extends AEntity> {
   public void delete(Integer id) {
       repository.deleteById(id);
   }
+  public void deleteAll() {
+    repository.deleteAll();
+  }
+
 }
