@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+
 public class Token extends AEntity {
 
   private final String name, symbol;
   private String slug;
 
+  @OneToMany(fetch = FetchType.EAGER)
   private List<Quote> quotes;
 
   public Token(String symbol, String name) {
