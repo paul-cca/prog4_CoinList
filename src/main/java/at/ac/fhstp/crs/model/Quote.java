@@ -6,22 +6,31 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.ManyToAny;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Entity
 public class Quote extends AEntity<Quote> {
 
+ // @ManyToOne
+  //private Token token;
   private String symbol;
   private float price;
 
   @OneToMany(fetch = FetchType.EAGER)
   private List<TokenChangeInPeriod> changeInPeriod = new ArrayList<TokenChangeInPeriod>();
+
+  public Quote(){
+    super();
+  }
 
   public Quote(String symbol) {
     this.symbol = symbol;

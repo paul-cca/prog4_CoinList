@@ -1,32 +1,36 @@
 package at.ac.fhstp.crs.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@AllArgsConstructor
 public class Token extends AEntity<Token> {
 
   private String name, symbol;
   private String slug;
 
-  @OneToMany(fetch = FetchType.EAGER)
-  private List<Quote> quotes;
+  public Token() {
+    super();
+  }
 
+  @OneToMany(fetch = FetchType.EAGER)//, mappedBy = "token")
+  private Set<Quote> quotes;
   public Token(String symbol, String name) {
     this.symbol = symbol;
     this.name = name;
-    quotes = new ArrayList<Quote>();
+    quotes = new HashSet<Quote>();
   }
 
   public String getName() {
@@ -42,13 +46,12 @@ public class Token extends AEntity<Token> {
   }
 
   public List<Quote> getQuotes() {
-    return  quotes;
+    return new ArrayList<>(quotes);
   }
 
   public void addQuote(Quote q) {
     quotes.add(q);
   }
-
 
   public void setSlug(String slug) {
     this.slug = slug;
@@ -63,8 +66,7 @@ public class Token extends AEntity<Token> {
     return name + ' ' + symbol;
   }
 
-  public void update(Token obj)
-  {
+  public void update(Token obj) {
     this.name = obj.getName();
     this.symbol = obj.getSymbol();
     this.slug = obj.getSlug();

@@ -20,6 +20,8 @@ public class TokenBuilder {
       object.getString("name")
     );
 
+    builder.setSlug(object.getString("slug"));
+
     String[] quoteNames = JSONObject.getNames(object.getJSONObject("quote"));
 
     Arrays

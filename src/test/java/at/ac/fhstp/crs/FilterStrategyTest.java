@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,8 +23,9 @@ import at.ac.fhstp.crs.model.QuoteBuilder;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.TokenBuilder;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class AppTest {
+public class FilterStrategyTest {
         @Mock
         IAPIConnector apiConnector;
 

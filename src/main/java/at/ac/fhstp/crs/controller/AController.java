@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public abstract class AController<T extends AEntity> {
+public abstract class AController<T extends AEntity<T>> {
 
   protected AService<T> service;
 

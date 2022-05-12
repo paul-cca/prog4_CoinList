@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public abstract class AService<T extends AEntity> {
+public abstract class AService<T extends AEntity<T>> {
 
   protected CrudRepository<T, Integer> repository;
 
@@ -42,5 +42,4 @@ public abstract class AService<T extends AEntity> {
   public void deleteAll() {
     repository.deleteAll();
   }
-
 }
