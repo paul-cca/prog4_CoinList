@@ -1,7 +1,5 @@
 package at.ac.fhstp.crs.model;
 
-import org.json.JSONObject;
-
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
 
 public class QuoteBuilder {
