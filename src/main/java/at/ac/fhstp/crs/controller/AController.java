@@ -2,6 +2,9 @@ package at.ac.fhstp.crs.controller;
 
 import at.ac.fhstp.crs.model.AEntity;
 import at.ac.fhstp.crs.service.AService;
+
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +29,7 @@ public abstract class AController<T extends AEntity<T>> {
     return service.getOne(id);
   }
 
+  @Secured(value = {"ADMIN"})
   @PostMapping
     public @ResponseBody T save(@RequestBody T obj) {
     return service.save(obj);
