@@ -1,7 +1,6 @@
 package at.ac.fhstp.crs.api;
 
 import at.ac.fhstp.crs.model.Token;
-import at.ac.fhstp.crs.model.TokenBuilder;
 import at.ac.fhstp.crs.model.factories.JsonTokenFactory;
 import com.harium.dotenv.Env;
 import java.io.IOException;

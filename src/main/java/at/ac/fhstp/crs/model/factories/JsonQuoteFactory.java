@@ -1,10 +1,8 @@
 package at.ac.fhstp.crs.model.factories;
 
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
-import at.ac.fhstp.crs.model.AEntity;
 import at.ac.fhstp.crs.model.Quote;
 import at.ac.fhstp.crs.model.QuoteBuilder;
-import java.util.Arrays;
 import org.json.JSONObject;
 
 public class JsonQuoteFactory implements IJSONModelFactory<Quote> {

@@ -8,8 +8,6 @@ import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.service.AService;
 import at.ac.fhstp.crs.service.ITokenService;
 import java.util.List;
-import java.util.Optional;
-import javax.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

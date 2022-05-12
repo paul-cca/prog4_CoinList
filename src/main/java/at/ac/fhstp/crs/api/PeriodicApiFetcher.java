@@ -4,10 +4,8 @@ import at.ac.fhstp.crs.model.Quote;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.TokenChangeInPeriod;
 import at.ac.fhstp.crs.service.AService;
-import at.ac.fhstp.crs.service.ITokenService;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+//import at.ac.fhstp.crs.service.ITokenService;
 import com.harium.dotenv.Env;
-import java.util.Optional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,7 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 public class PeriodicApiFetcher {
 
   private IAPIConnector apiConnector;
-  private ITokenService detailedTokenService;
+  //private ITokenService detailedTokenService;
   private AService<Token> tokenService;
   private AService<Quote> quoteService;
   private AService<TokenChangeInPeriod> tokenChangeInPeriodService;
@@ -25,13 +23,13 @@ public class PeriodicApiFetcher {
 
   public PeriodicApiFetcher(
     IAPIConnector apiConnector,
-    ITokenService detailedTokenService,
+    //ITokenService detailedTokenService,
     AService<Quote> quoteService,
     AService<Token> tokenService,
     AService<TokenChangeInPeriod> tokenChangeInPeriodService
   ) {
     this.apiConnector = apiConnector;
-    this.detailedTokenService = detailedTokenService;
+    //this.detailedTokenService = detailedTokenService;
     this.quoteService = quoteService;
     this.tokenService = tokenService;
     this.tokenChangeInPeriodService = tokenChangeInPeriodService;
@@ -44,7 +42,7 @@ public class PeriodicApiFetcher {
     }
   }
 
-  @Scheduled(fixedRate = 1000 * 6)
+  @Scheduled(fixedRate = 1000 * 600)
   public void fetchData() {
     
     // TODO: adopt relations to allow deletion of quotes before token
