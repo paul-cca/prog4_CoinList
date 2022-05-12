@@ -3,7 +3,6 @@ package at.ac.fhstp.crs.model;
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
 import javax.persistence.Entity;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 @Builder
 @Entity
