@@ -1,21 +1,20 @@
 package at.ac.fhstp.crs.model;
 
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Builder
 @Entity
-public class Quote extends AEntity<Quote> {
+public class Quote extends AEntity<Quote> implements Comparable<Quote> {
 
  // @ManyToOne
   //private Token token;
@@ -69,4 +68,23 @@ public class Quote extends AEntity<Quote> {
     this.symbol = obj.symbol;
     this.price = obj.price;
   }
+
+    @Override
+    public int compareTo(Quote o)
+    {
+        int compareValue;
+
+        if ((compareValue = Integer.compare(this.getId(), o.getId())) != 0)
+            return compareValue;
+
+        if (this.symbol != null ^ o.symbol != null)
+            return (this.symbol == null) ? -1 : 1;
+        else if ((compareValue = this.symbol.compareTo(o.symbol)) != 0)
+            return compareValue;
+
+        if ((compareValue = Float.compare(this.price, o.price)) != 0)
+            return compareValue;
+
+        return 0;
+    }
 }
