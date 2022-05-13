@@ -48,7 +48,6 @@ public class TokenController extends AController<Token> {
     return tokenService.getAllFilteredBy(strategy);
   }
 
-  @PreAuthorize("hasRole('adminv2')")
   @GetMapping(value = "sortedByChange")
   public @ResponseBody List<Token> getAllSortedByChange(
     @RequestParam(required = false, defaultValue = "true") boolean ascending

@@ -3,7 +3,6 @@ package at.ac.fhstp.crs.controller;
 import at.ac.fhstp.crs.model.AEntity;
 import at.ac.fhstp.crs.service.AService;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +28,6 @@ public abstract class AController<T extends AEntity<T>> {
     return service.getOne(id);
   }
 
-  @Secured(value = {"ADMIN"})
   @PostMapping
     public @ResponseBody T save(@RequestBody T obj) {
     return service.save(obj);
@@ -42,6 +40,7 @@ public abstract class AController<T extends AEntity<T>> {
     return service.save(current);
   }
 
+  @PreAuthorize("hasRole('data_creator')")
   @DeleteMapping(value = "/{id}")
   public void delete(@PathVariable Integer id) {
     service.delete(id);
