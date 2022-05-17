@@ -1,30 +1,36 @@
 package at.ac.fhstp.crs.model;
 
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @AllArgsConstructor
 @Builder
 @Entity
-public class Quote extends AEntity<Quote> implements Comparable<Quote> {
+@Table(name = "quotes")
+public class Quote extends AEntity implements Comparable<Quote> {
 
- // @ManyToOne
+  // @ManyToOne
   //private Token token;
+  @Column
   private String symbol;
+
+  @Column
   private float price;
 
   @OneToMany(fetch = FetchType.EAGER)
   private List<TokenChangeInPeriod> changeInPeriod = new ArrayList<TokenChangeInPeriod>();
 
-  public Quote(){
+  public Quote() {
     super();
   }
 
@@ -64,27 +70,30 @@ public class Quote extends AEntity<Quote> implements Comparable<Quote> {
     this.changeInPeriod.add(new TokenChangeInPeriod(period, percentChange));
   }
 
-  public void update(Quote obj) {
-    this.symbol = obj.symbol;
-    this.price = obj.price;
+  public void update(AEntity obj) {
+    Quote q = (Quote) obj;
+    this.symbol = q.symbol;
+    this.price = q.price;
   }
 
-    @Override
-    public int compareTo(Quote o)
-    {
-        int compareValue;
+  @Override
+  public int compareTo(Quote o) {
+    int compareValue;
 
-        if ((compareValue = Integer.compare(this.getId(), o.getId())) != 0)
-            return compareValue;
+    if (
+      (compareValue = Integer.compare(this.getId(), o.getId())) != 0
+    ) return compareValue;
 
-        if (this.symbol != null ^ o.symbol != null)
-            return (this.symbol == null) ? -1 : 1;
-        else if ((compareValue = this.symbol.compareTo(o.symbol)) != 0)
-            return compareValue;
+    if (this.symbol != null ^ o.symbol != null) return (this.symbol == null)
+      ? -1
+      : 1; else if (
+      (compareValue = this.symbol.compareTo(o.symbol)) != 0
+    ) return compareValue;
 
-        if ((compareValue = Float.compare(this.price, o.price)) != 0)
-            return compareValue;
+    if (
+      (compareValue = Float.compare(this.price, o.price)) != 0
+    ) return compareValue;
 
-        return 0;
-    }
+    return 0;
+  }
 }

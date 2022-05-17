@@ -4,6 +4,6 @@ import org.json.JSONObject;
 
 import at.ac.fhstp.crs.model.AEntity;
 
-public interface IJSONModelFactory<T extends AEntity<T>> {
+public interface IJSONModelFactory<T extends AEntity> {
     T createModel(JSONObject object);
 }

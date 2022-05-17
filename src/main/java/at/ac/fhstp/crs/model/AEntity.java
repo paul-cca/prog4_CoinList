@@ -5,8 +5,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+
 @MappedSuperclass
-public abstract class AEntity<T> {
+public abstract class AEntity extends PanacheEntityBase {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,5 +22,5 @@ public abstract class AEntity<T> {
     this.id = id;
   }
 
-  public abstract void update(T obj);
+  public abstract void update(AEntity obj);
 }

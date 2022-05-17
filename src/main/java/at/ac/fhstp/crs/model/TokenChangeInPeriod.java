@@ -1,19 +1,22 @@
 package at.ac.fhstp.crs.model;
 
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import lombok.Builder;
+import javax.persistence.Table;
 
-@Builder
 @Entity
-public class TokenChangeInPeriod extends AEntity<TokenChangeInPeriod> {
+@NoArgsConstructor
+@Table(name = "tokenchangeinperiod")
+public class TokenChangeInPeriod extends AEntity {
 
+  @Column
   private ETokenChangePeriod period;
+  @Column
   private float price;
-
-  public TokenChangeInPeriod() {
-    super();
-  }
 
   public TokenChangeInPeriod(ETokenChangePeriod period, float price) {
     super();
@@ -37,8 +40,9 @@ public class TokenChangeInPeriod extends AEntity<TokenChangeInPeriod> {
     this.price = price;
   }
 
-  public void update(TokenChangeInPeriod obj) {
-    this.period = obj.getPeriod();
-    this.price = obj.getPrice();
+  public void update(AEntity obj) {
+    TokenChangeInPeriod t = (TokenChangeInPeriod) obj;
+    this.period = t.getPeriod();
+    this.price = t.getPrice();
   }
 }

@@ -1,44 +1,48 @@
 package at.ac.fhstp.crs.service;
 
 import at.ac.fhstp.crs.model.AEntity;
-import org.springframework.data.repository.CrudRepository;
-
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
-public abstract class AService<T extends AEntity<T>> {
+import javax.inject.Inject;
 
-  protected CrudRepository<T, Integer> repository;
 
-  public AService(CrudRepository<T, Integer> repository) {
-    this.repository = repository;
-  }
+public abstract class AService<T extends AEntity> {
+
+  @Inject
+  protected PanacheRepository<T> repository;
+
+ // @Inject
+ // public AService(PanacheRepository<T> repository) {
+ //   this.repository = repository;
+ // }
+
+  public abstract void setRepository(PanacheRepository<T> repository);
 
   public List<T> getAll() {
-    return StreamSupport
-      .stream(repository.findAll().spliterator(), false)
-      .collect(Collectors.toList());
+    return repository.findAll().list();
   }
 
-  public Optional<T> getOne(Integer id) {
-    return repository.findById(id);
+  public Optional<T> getOne(Long id) {
+    return repository.findByIdOptional(id);
   }
 
   public T save(T obj) {
-    repository.save(obj);
+    repository.persist(obj);
     return obj;
   }
 
   public T update(T obj) {
-      repository.save(obj);
-      return obj;
+    obj.update(obj);
+    repository.persist(obj);
+    return obj;
   }
 
-  public void delete(Integer id) {
-      repository.deleteById(id);
+  public void delete(Long id) {
+    repository.deleteById(id);
   }
+
   public void deleteAll() {
     repository.deleteAll();
   }

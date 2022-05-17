@@ -2,47 +2,64 @@ package at.ac.fhstp.crs.controller;
 
 import at.ac.fhstp.crs.model.AEntity;
 import at.ac.fhstp.crs.service.AService;
-
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-public abstract class AController<T extends AEntity<T>> {
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+
+@Produces(MediaType.APPLICATION_JSON) // <---- Add this
+@Consumes(MediaType.APPLICATION_JSON)
+public abstract class AController<T extends AEntity> {
 
   protected AService<T> service;
 
-  public AController(AService<T> service) {
-    this.service = service;
-  }
+  public abstract void setService(AService<T> service);
 
-  @GetMapping
-  public @ResponseBody List<T> getAll() {
+
+  @Path("/")
+  @GET
+  public List<T> getAll() {
     return service.getAll();
   }
 
-  @GetMapping(value = "/{id}")
-  public @ResponseBody Optional<T> getOne(@PathVariable Integer id) {
+  @Path("/{id}")
+  @GET
+  public Optional<T> getOne(@PathParam("id") Long id) {
     return service.getOne(id);
   }
 
-  @PostMapping
-    public @ResponseBody T save(@RequestBody T obj) {
+  @Transactional
+  @Path("/")
+  @POST
+  public T save(T obj) {
     return service.save(obj);
   }
 
-  @PutMapping(value = "/{id}")
-  public @ResponseBody T update(@PathVariable Integer id, @RequestBody T obj) {
+  @Transactional
+  @Path("/{id}")
+  @PUT
+  public T update(@PathParam("id") Long id, T obj) {
     T current = getOne(id).get();
-    current.update(obj);
+   // current.update(obj);
     return service.save(current);
   }
 
-  @PreAuthorize("hasRole('data_creator')")
-  @DeleteMapping(value = "/{id}")
-  public void delete(@PathVariable Integer id) {
+  //@PreAuthorize("hasRole('data_creator')")
+  @Transactional
+  @Path("/{id}")
+  @DELETE
+  public void delete(@PathParam("id") Long id) {
     service.delete(id);
   }
 }

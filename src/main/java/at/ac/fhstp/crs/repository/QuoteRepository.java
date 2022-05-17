@@ -1,9 +1,12 @@
 package at.ac.fhstp.crs.repository;
-import org.springframework.data.repository.CrudRepository;
+
+import javax.enterprise.context.ApplicationScoped;
 
 import at.ac.fhstp.crs.model.Quote;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
-public interface QuoteRepository extends CrudRepository<Quote,Integer> {
+@ApplicationScoped
+public class QuoteRepository implements PanacheRepository<Quote> {
 
     
 }

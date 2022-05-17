@@ -5,30 +5,33 @@ import at.ac.fhstp.crs.model.Quote;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.TokenChangeInPeriod;
 import at.ac.fhstp.crs.repository.TokenRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import org.springframework.stereotype.Component;
-
-@Component
+@ApplicationScoped
 public class TokenService extends AService<Token> implements ITokenService {
 
   private TokenRepository tokenRepository;
-  private AService<Quote> quoteService;
-  private AService<TokenChangeInPeriod> tokenChangeInPeriodService;
+  private QuoteService quoteService;
+  private TokenChangeInPeriodService tokenChangeInPeriodService;
 
   public TokenService(
-    TokenRepository repository,
-    AService<Quote> quoteService,
-    AService<TokenChangeInPeriod> tokenChangeInPeriodService
+    TokenRepository tokenRepository,
+    QuoteService quoteService,
+    TokenChangeInPeriodService tokenChangeInPeriodService
   ) {
-    super(repository);
-    this.tokenRepository = repository;
+    this.tokenRepository = tokenRepository;
     this.quoteService = quoteService;
     this.tokenChangeInPeriodService = tokenChangeInPeriodService;
   }
 
-  @Override
+  // @Override
   public Token save(Token token) {
     for (Quote quote : token.getQuotes()) {
       for (TokenChangeInPeriod tcp : quote.getChangeInPeriods()) {
@@ -36,26 +39,34 @@ public class TokenService extends AService<Token> implements ITokenService {
       }
       quoteService.save(quote);
     }
-    repository.save(token);
+    repository.persist(token);
     return token;
   }
 
-  @Override
   public List<Token> getAllFilteredBy(ITokenFilterStrategy strategy) {
-    return strategy.filterTokens(getAll());
+    return new ArrayList<Token>(); //strategy.filterTokens(repository.getAll());
   }
 
-  @Override
   public void updateTokenBySymbol(Token token) {
     Optional<Token> org = tokenRepository.findOneBySymbol(token.getSymbol());
     if (org.isPresent()) {
       org.get().update(token);
-      repository.save(org.get());
+      repository.persist(org.get());
     }
   }
 
-  @Override
   public Optional<Token> findBySymbol(String symbol) {
     return tokenRepository.findOneBySymbol(symbol);
+  }
+
+  @Inject
+  //@Override
+  public void setRepository(TokenRepository repository) {
+    this.repository = repository;
+  }
+
+  @Override
+  public void setRepository(PanacheRepository<Token> repository) {
+    this.repository = repository;
   }
 }

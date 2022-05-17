@@ -1,10 +1,14 @@
 package at.ac.fhstp.crs.repository;
 import java.util.Optional;
 
-import org.springframework.data.repository.CrudRepository;
+import javax.enterprise.context.ApplicationScoped;
 
 import at.ac.fhstp.crs.model.Token;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
-public interface TokenRepository extends CrudRepository<Token,Integer> {
-    Optional<Token> findOneBySymbol(String symbol);
+@ApplicationScoped
+public class TokenRepository implements PanacheRepository<Token> {
+    public Optional<Token> findOneBySymbol(String symbol) {
+        return Optional.empty();
+    }
 }

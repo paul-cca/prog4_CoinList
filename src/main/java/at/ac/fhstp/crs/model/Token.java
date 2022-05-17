@@ -1,17 +1,20 @@
 package at.ac.fhstp.crs.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import java.util.*;
 
 @Builder
 @Entity
 @AllArgsConstructor
-public class Token extends AEntity<Token> implements Comparable<Token> {
+@Table(name = "tokens")
+public class Token extends AEntity implements Comparable<Token> {
 
   private String name, symbol;
   private String slug;
@@ -61,10 +64,11 @@ public class Token extends AEntity<Token> implements Comparable<Token> {
     return name + ' ' + symbol;
   }
 
-  public void update(Token obj) {
-    this.name = obj.getName();
-    this.symbol = obj.getSymbol();
-    this.slug = obj.getSlug();
+  public void update(AEntity obj) {
+    Token t = (Token) obj;
+    this.name = t.getName();
+    this.symbol = t.getSymbol();
+    this.slug = t.getSlug();
   }
 
   @Override

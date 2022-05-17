@@ -1,12 +1,46 @@
 package at.ac.fhstp.crs.service;
 
 import at.ac.fhstp.crs.model.TokenChangeInPeriod;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
+import at.ac.fhstp.crs.repository.TokenChangeInPeriodRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import java.util.List;
+import java.util.Optional;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import lombok.NoArgsConstructor;
 
-@Component
+@ApplicationScoped
 public class TokenChangeInPeriodService extends AService<TokenChangeInPeriod> {
-    public TokenChangeInPeriodService(CrudRepository<TokenChangeInPeriod, Integer> repository) {
-        super(repository);
-    }
+
+  public List<TokenChangeInPeriod> getAll() {
+    return repository.findAll().list();
+  }
+
+  public Optional<TokenChangeInPeriod> getOne(Long id) {
+    return repository.findByIdOptional(id);
+  }
+
+  public TokenChangeInPeriod save(TokenChangeInPeriod obj) {
+    repository.persist(obj);
+    return obj;
+  }
+
+  public TokenChangeInPeriod update(TokenChangeInPeriod obj) {
+    repository.persist(obj);
+    return obj;
+  }
+
+  public void delete(Long id) {
+    repository.deleteById(id);
+  }
+
+  public void deleteAll() {
+    repository.deleteAll();
+  }
+
+  @Inject
+  @Override
+  public void setRepository(PanacheRepository<TokenChangeInPeriod> repository) {
+    this.repository = repository;
+  }
 }
