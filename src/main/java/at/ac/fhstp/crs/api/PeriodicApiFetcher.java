@@ -4,6 +4,9 @@ import at.ac.fhstp.crs.model.Quote;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.TokenChangeInPeriod;
 import at.ac.fhstp.crs.service.AService;
+
+import java.util.List;
+
 //import at.ac.fhstp.crs.service.ITokenService;
 import com.harium.dotenv.Env;
 import org.springframework.context.annotation.Configuration;
@@ -44,14 +47,14 @@ public class PeriodicApiFetcher {
 
   @Scheduled(fixedRate = 1000 * 600)
   public void fetchData() {
-    
     // TODO: adopt relations to allow deletion of quotes before token
 
     tokenService.deleteAll();
-    
-    for (Token t : apiConnector.getTokens(tokenAmountToFetch)) {
-      
-      /*
+
+    List<Token> tokens = apiConnector.getTokens(tokenAmountToFetch);
+    if (tokens != null) {
+      for (Token t : apiConnector.getTokens(tokenAmountToFetch)) {
+        /*
       // if token is present delete all quotes as these will have changed surely
       Optional<Token> token = detailedTokenService.findBySymbol(t.getSymbol());
       if (token.isPresent()) {
@@ -63,8 +66,8 @@ public class PeriodicApiFetcher {
         }
         detailedTokenService.updateTokenBySymbol(t);
       }*/
-      // token is not present it will be created
-      //else {
+        // token is not present it will be created
+        //else {
         for (Quote quote : t.getQuotes()) {
           for (TokenChangeInPeriod tcp : quote.getChangeInPeriods()) {
             tokenChangeInPeriodService.save(tcp);
@@ -72,7 +75,8 @@ public class PeriodicApiFetcher {
           quoteService.save(quote);
         }
         tokenService.save(t);
-      //}
+        //}
+      }
     }
   }
 }
