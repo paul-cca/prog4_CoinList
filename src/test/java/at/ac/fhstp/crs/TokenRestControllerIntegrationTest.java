@@ -127,7 +127,8 @@ public class TokenRestControllerIntegrationTest {
     @Test
     public void testDeleteOne() throws Exception {
         Mockito.when(tokenService.getAll()).thenReturn(tokenList);
-        Mockito.when(tokenService.delete(Mockito.anyInt())).thenAnswer(I -> tokenList.remove(tokenBTC));
+        Mockito.when(tokenService.delete(Mockito.anyInt()))
+                .thenAnswer(I -> tokenList.remove(tokenBTC));
 
         mockMvc
                 .perform(get("/token"))
