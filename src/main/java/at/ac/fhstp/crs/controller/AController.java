@@ -59,7 +59,7 @@ public abstract class AController<T extends AEntity> {
   @PUT
   public T update(@PathParam("id") Long id, T obj) {
     T current = getOne(id).get();
-   // current.update(obj);
+    current.update(obj);
     return service.save(current);
   }
 
