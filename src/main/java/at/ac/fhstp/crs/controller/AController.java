@@ -35,9 +35,7 @@ public abstract class AController<T extends AEntity<T>> {
 
   @PutMapping(value = "/{id}")
   public @ResponseBody T update(@PathVariable Integer id, @RequestBody T obj) {
-    T current = getOne(id).get();
-    current.update(obj);
-    return service.save(current);
+    return service.update(obj);
   }
 
   @PreAuthorize("hasRole('data_creator')")

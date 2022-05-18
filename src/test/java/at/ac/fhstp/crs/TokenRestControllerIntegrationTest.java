@@ -1,6 +1,5 @@
 package at.ac.fhstp.crs;
 
-import at.ac.fhstp.crs.controller.TokenController;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.factories.JsonTokenFactory;
 import at.ac.fhstp.crs.service.TokenService;
@@ -36,10 +35,6 @@ public class TokenRestControllerIntegrationTest {
 
     @MockBean
     TokenService tokenService;
-
-    //@MockBean
-    //TokenController tokenController;
-
     @Autowired
     WebApplicationContext webApplicationContext;
 
@@ -216,7 +211,6 @@ public class TokenRestControllerIntegrationTest {
 
     @Test
     public void testUpdateOne() throws Exception {
-        /*
         String requestJSONString =
                 "{\n" +
                         "    \"id\": 10,\n" +
@@ -250,7 +244,7 @@ public class TokenRestControllerIntegrationTest {
                         "}";
         tokenList.add(tokenETH);
         Mockito.when(tokenService.getAll()).thenReturn(tokenList);
-        Mockito.when(tokenController.update(Mockito.anyInt(), Mockito.any(Token.class)))
+        Mockito.when(tokenService.update(Mockito.any(Token.class)))
                 .thenAnswer(I -> tokenList.set(1, tokenSHT));
 
         mockMvc
@@ -276,8 +270,6 @@ public class TokenRestControllerIntegrationTest {
                 .andExpect(jsonPath("$", Matchers.hasSize(2)))
                 .andExpect(jsonPath("$[0].symbol", Matchers.is("BTC")))
                 .andExpect(jsonPath("$[1].symbol", Matchers.is("SHT")));
-        tokenList.remove(tokenETH);
         tokenList.remove(tokenSHT);
-        */
     }
 }
