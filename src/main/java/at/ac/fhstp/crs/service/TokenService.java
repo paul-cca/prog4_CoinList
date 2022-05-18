@@ -1,18 +1,17 @@
 package at.ac.fhstp.crs.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import at.ac.fhstp.crs.api.filters.ITokenFilterStrategy;
 import at.ac.fhstp.crs.model.Quote;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.TokenChangeInPeriod;
 import at.ac.fhstp.crs.repository.TokenRepository;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @ApplicationScoped
 public class TokenService extends AService<Token> implements ITokenService {
@@ -33,7 +32,7 @@ public class TokenService extends AService<Token> implements ITokenService {
 
   // @Override
   public Token save(Token token) {
-    for (Quote quote : token.getQuotes()) {
+        for (Quote quote : token.getQuotes()) {
       for (TokenChangeInPeriod tcp : quote.getChangeInPeriods()) {
         tokenChangeInPeriodService.save(tcp);
       }

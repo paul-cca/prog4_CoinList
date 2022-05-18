@@ -1,12 +1,11 @@
 package at.ac.fhstp.crs.model;
 
-import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
+import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor

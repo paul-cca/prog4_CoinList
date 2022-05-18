@@ -1,13 +1,13 @@
 package at.ac.fhstp.crs.service;
 
-import at.ac.fhstp.crs.model.TokenChangeInPeriod;
-import at.ac.fhstp.crs.repository.TokenChangeInPeriodRepository;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import java.util.List;
 import java.util.Optional;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import lombok.NoArgsConstructor;
+
+import at.ac.fhstp.crs.model.TokenChangeInPeriod;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 @ApplicationScoped
 public class TokenChangeInPeriodService extends AService<TokenChangeInPeriod> {

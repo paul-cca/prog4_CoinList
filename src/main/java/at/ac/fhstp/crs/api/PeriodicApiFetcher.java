@@ -1,19 +1,16 @@
 package at.ac.fhstp.crs.api;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
+
+//import at.ac.fhstp.crs.service.ITokenService;
+import com.harium.dotenv.Env;
+
 import at.ac.fhstp.crs.model.Quote;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.TokenChangeInPeriod;
 import at.ac.fhstp.crs.service.AService;
-import at.ac.fhstp.crs.service.ITokenService;
-import at.ac.fhstp.crs.service.QuoteService;
-import at.ac.fhstp.crs.service.TokenChangeInPeriodService;
-import at.ac.fhstp.crs.service.TokenService;
-//import at.ac.fhstp.crs.service.ITokenService;
-import com.harium.dotenv.Env;
 import io.quarkus.scheduler.Scheduled;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
 
 @ApplicationScoped
 public class PeriodicApiFetcher {
