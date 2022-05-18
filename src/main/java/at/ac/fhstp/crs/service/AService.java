@@ -36,8 +36,10 @@ public abstract class AService<T extends AEntity<T>> {
       return obj;
   }
 
-  public void delete(Integer id) {
+  public boolean delete(Integer id) {
+      long count = repository.count();
       repository.deleteById(id);
+      return repository.count() < count;
   }
   public void deleteAll() {
     repository.deleteAll();

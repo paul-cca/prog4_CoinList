@@ -109,6 +109,12 @@
       <artifactId>keycloak-spring-boot-starter</artifactId>
       <version>${keycloak.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.c4-soft.springaddons</groupId>
+      <artifactId>spring-security-oauth2-test-addons</artifactId>
+      <version>4.1.10</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
