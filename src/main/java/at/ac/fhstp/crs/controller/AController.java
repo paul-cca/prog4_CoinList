@@ -2,6 +2,9 @@ package at.ac.fhstp.crs.controller;
 
 import at.ac.fhstp.crs.model.AEntity;
 import at.ac.fhstp.crs.service.AService;
+import io.quarkus.security.Authenticated;
+import io.quarkus.security.identity.SecurityIdentity;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -24,12 +27,15 @@ public abstract class AController<T extends AEntity> {
 
   protected AService<T> service;
 
+  @Inject
+  SecurityIdentity identity;
+  
   public abstract void setService(AService<T> service);
-
 
   @Path("/")
   @GET
   public List<T> getAll() {
+    System.out.println(identity.getPrincipal().getName().toString());
     return service.getAll();
   }
 
@@ -39,6 +45,7 @@ public abstract class AController<T extends AEntity> {
     return service.getOne(id);
   }
 
+  @Authenticated
   @Transactional
   @Path("/")
   @POST
@@ -46,6 +53,7 @@ public abstract class AController<T extends AEntity> {
     return service.save(obj);
   }
 
+  @Authenticated
   @Transactional
   @Path("/{id}")
   @PUT
@@ -56,6 +64,7 @@ public abstract class AController<T extends AEntity> {
   }
 
   //@PreAuthorize("hasRole('data_creator')")
+  @Authenticated
   @Transactional
   @Path("/{id}")
   @DELETE

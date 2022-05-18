@@ -44,7 +44,7 @@ public class TokenService extends AService<Token> implements ITokenService {
   }
 
   public List<Token> getAllFilteredBy(ITokenFilterStrategy strategy) {
-    return new ArrayList<Token>(); //strategy.filterTokens(repository.getAll());
+    return strategy.filterTokens(tokenRepository.findAll().list());
   }
 
   public void updateTokenBySymbol(Token token) {
