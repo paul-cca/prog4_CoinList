@@ -82,7 +82,7 @@ public class Quote extends AEntity implements Comparable<Quote> {
     int compareValue;
 
     if (
-      (compareValue = Integer.compare(this.getId(), o.getId())) != 0
+      (compareValue = Long.compare(this.getId(), o.getId())) != 0
     ) return compareValue;
 
     if (this.symbol != null ^ o.symbol != null) return (this.symbol == null)

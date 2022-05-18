@@ -75,7 +75,7 @@ public class Token extends AEntity implements Comparable<Token> {
   public int compareTo(Token o) {
     int compareValue;
 
-    if ((compareValue = Integer.compare(this.getId(), o.getId())) != 0)
+    if ((compareValue = Long.compare(this.getId(), o.getId())) != 0)
       return compareValue;
 
     if (this.name != null ^ o.name != null)

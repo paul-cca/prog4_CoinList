@@ -5,10 +5,8 @@
   <groupId>at.ac.fhstp.crs</groupId>
   <artifactId>practice01</artifactId>
   <version>1.0</version>
-
   <name>practice01</name>
   <!-- FIXME change it to the project's website -->
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <keycloak.version>18.0.0</keycloak.version>
@@ -25,11 +23,8 @@
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
     <lombok.version>1.18.24</lombok.version>
   </properties>
-
   <dependencyManagement>
-
     <dependencies>
-
       <dependency>
         <groupId>org.keycloak.bom</groupId>
         <artifactId>keycloak-adapter-bom</artifactId>
@@ -46,7 +41,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -74,7 +68,6 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-spring-data-jpa</artifactId>
     </dependency>
-
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
@@ -91,7 +84,6 @@
       <version>5.8.2</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
@@ -153,9 +145,50 @@
       <version>2.9.0.Final</version>
     </dependency>
   </dependencies>
-
   <build>
     <plugins>
+      <plugin>
+        <groupId>com.microsoft.azure</groupId>
+        <artifactId>azure-webapp-maven-plugin</artifactId>
+        <version>2.3.0</version>
+        <configuration>
+          <schemaVersion>v2</schemaVersion>
+          <subscriptionId>b69efb9d-2465-4390-8c41-028d616d1e7e</subscriptionId>
+          <resourceGroup>practice01-1652875665059-rg</resourceGroup>
+          <appName>practice01-1652875665059</appName>
+          <pricingTier>B1</pricingTier>
+          <region>centralus</region>
+          <runtime>
+            <os>Linux</os>
+            <javaVersion>Java 1.8</javaVersion>
+            <webContainer>Java SE</webContainer>
+          </runtime>
+          <appSettings>
+            <property>
+              <name>PORT</name>
+              <value>8080</value>
+            </property>
+            <property>
+              <name>WEBSITES_PORT</name>
+              <value>8080</value>
+            </property>
+            <property>
+              <name>WEBSITES_CONTAINER_START_TIME_LIMIT</name>
+              <value>600</value>
+            </property>
+          </appSettings>
+          <deployment>
+            <resources>
+              <resource>
+                <directory>${project.basedir}/target</directory>
+                <includes>
+                  <include>*.jar</include>
+                </includes>
+              </resource>
+            </resources>
+          </deployment>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
@@ -183,7 +216,6 @@
       </plugin>
     </plugins>
   </build>
-
   <profiles>
     <profile>
       <id>native</id>

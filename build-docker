@@ -1,0 +1,1 @@
+mvn package -Dquarkus.package.type=fast-jar && docker build -f src/docker/Dockerfile.jvm -t coinlist .
