@@ -2,10 +2,10 @@ package at.ac.fhstp.crs.service;
 
 import at.ac.fhstp.crs.model.AEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.Optional;
 
 
 public abstract class AService<T extends AEntity> {
@@ -35,12 +35,14 @@ public abstract class AService<T extends AEntity> {
 
   public T update(T obj) {
     obj.update(obj);
-    repository.persist(obj);
+    repository.getEntityManager().merge(obj);
     return obj;
   }
 
-  public void delete(Long id) {
+  public boolean delete(Long id) {
+    long count = repository.count();
     repository.deleteById(id);
+    return repository.count() < count;
   }
 
   public void deleteAll() {

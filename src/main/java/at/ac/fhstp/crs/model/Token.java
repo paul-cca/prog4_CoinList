@@ -1,13 +1,9 @@
 package at.ac.fhstp.crs.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+import javax.persistence.*;
 import java.util.*;
 
 @Builder
@@ -23,7 +19,7 @@ public class Token extends AEntity implements Comparable<Token> {
     super();
   }
 
-  @OneToMany(fetch = FetchType.EAGER)//, mappedBy = "token")
+  @OneToMany(cascade = {CascadeType.PERSIST},fetch = FetchType.EAGER)//, mappedBy = "token")
   private Set<Quote> quotes;
   public Token(String symbol, String name) {
     this.symbol = symbol;

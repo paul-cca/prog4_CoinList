@@ -5,20 +5,12 @@ import at.ac.fhstp.crs.service.AService;
 import io.quarkus.security.Authenticated;
 import io.quarkus.security.identity.SecurityIdentity;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.Optional;
 
 
 @Produces(MediaType.APPLICATION_JSON) // <---- Add this
@@ -58,8 +50,10 @@ public abstract class AController<T extends AEntity> {
   @Path("/{id}")
   @PUT
   public T update(@PathParam("id") Long id, T obj) {
-    T current = getOne(id).get();
+    ////
+    T current = service.getOne(id).get();
     current.update(obj);
+    /////
     return service.save(current);
   }
 

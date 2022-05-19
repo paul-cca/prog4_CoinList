@@ -1,18 +1,15 @@
 package at.ac.fhstp.crs.service;
 
-import java.util.List;
-import java.util.Optional;
+import at.ac.fhstp.crs.model.TokenChangeInPeriod;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import at.ac.fhstp.crs.model.TokenChangeInPeriod;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
-
 @ApplicationScoped
 public class TokenChangeInPeriodService extends AService<TokenChangeInPeriod> {
 
-  public List<TokenChangeInPeriod> getAll() {
+  /*public List<TokenChangeInPeriod> getAll() {
     return repository.findAll().list();
   }
 
@@ -36,7 +33,7 @@ public class TokenChangeInPeriodService extends AService<TokenChangeInPeriod> {
 
   public void deleteAll() {
     repository.deleteAll();
-  }
+  }*/
 
   @Inject
   @Override

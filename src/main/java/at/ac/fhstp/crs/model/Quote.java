@@ -1,18 +1,13 @@
 package at.ac.fhstp.crs.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import at.ac.fhstp.crs.api.filters.ETokenChangePeriod;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Builder
@@ -28,7 +23,7 @@ public class Quote extends AEntity implements Comparable<Quote> {
   @Column
   private float price;
 
-  @OneToMany(fetch = FetchType.EAGER)
+  @OneToMany(cascade = {CascadeType.PERSIST},fetch = FetchType.EAGER)
   private List<TokenChangeInPeriod> changeInPeriod = new ArrayList<TokenChangeInPeriod>();
 
   public Quote() {
