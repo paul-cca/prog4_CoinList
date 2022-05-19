@@ -2,8 +2,6 @@ package at.ac.fhstp.crs.controller;
 
 import at.ac.fhstp.crs.model.AEntity;
 import at.ac.fhstp.crs.service.AService;
-
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +36,6 @@ public abstract class AController<T extends AEntity<T>> {
     return service.update(obj);
   }
 
-  @PreAuthorize("hasRole('data_creator')")
   @DeleteMapping(value = "/{id}")
   public void delete(@PathVariable Integer id) {
     service.delete(id);
