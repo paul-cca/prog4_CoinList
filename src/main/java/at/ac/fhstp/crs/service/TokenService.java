@@ -39,7 +39,7 @@ public class TokenService extends AService<Token> implements ITokenService {
             }
             quoteService.save(quote);
         }
-        repository.getEntityManager().merge(token);
+        repository.persist(token);
         return token;
     }
 

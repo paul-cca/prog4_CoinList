@@ -40,7 +40,8 @@ public class TokenCrudTest {
 
 
         t1 = tokenBuilder.toToken();
-        tokenService.save(t1);
+        //t1.setId(1l);
+        t1 = tokenService.save(t1);
         t2 = tokenService.getOne(t1.getId()).get();
         q2 = t2.getQuote("EUR").get();
 
