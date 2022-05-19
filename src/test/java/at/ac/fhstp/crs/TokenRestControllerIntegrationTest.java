@@ -1,6 +1,8 @@
 package at.ac.fhstp.crs;
 
 import at.ac.fhstp.crs.api.security.KeycloakConfiguration;
+import at.ac.fhstp.crs.api.security.KeycloakSecurityConfig;
+import at.ac.fhstp.crs.controller.TokenController;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.factories.JsonTokenFactory;
 import at.ac.fhstp.crs.service.TokenService;
@@ -12,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -34,8 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration
-@SpringBootTest
-@EnableWebSecurity
+//@SpringBootTest
+@WebMvcTest(TokenController.class)
+@ComponentScan(basePackageClasses = { KeycloakSecurityConfig.class, KeycloakConfiguration.class })
 public class TokenRestControllerIntegrationTest {
 
     @MockBean
@@ -131,7 +134,7 @@ public class TokenRestControllerIntegrationTest {
                 .andExpect(jsonPath("$[0].symbol", Matchers.is("BTC")));
     }
 
-    @WithMockUser(roles = {"data_creator"})
+    @WithMockUser
     @Test
     public void testDeleteOne() throws Exception {
         Mockito.when(tokenService.getAll()).thenReturn(tokenList);
@@ -154,7 +157,7 @@ public class TokenRestControllerIntegrationTest {
                 .andExpect(jsonPath("$", Matchers.hasSize(0)));
     }
 
-    @WithMockUser(roles = {"data_creator"})
+    @WithMockUser
     @Test
     public void testAddOne() throws Exception {
         String requestJSONString =
@@ -217,7 +220,7 @@ public class TokenRestControllerIntegrationTest {
                 .andExpect(jsonPath("$[1].symbol", Matchers.is("ETH")));
     }
 
-    @WithMockUser(roles = {"data_creator"})
+    @WithMockUser
     @Test
     public void testUpdateOne() throws Exception {
         String requestJSONString =
@@ -289,17 +292,5 @@ public class TokenRestControllerIntegrationTest {
         mockMvc
                 .perform(get("/token/sortedByValue"))
                 .andExpect(status().isOk());
-    }
-
-    @WithMockUser
-    @Test
-    public void getTokensSortedByValueWithoutAuthentication() throws Exception {
-        Mockito.when(tokenService.getAll()).thenReturn(tokenList);
-
-        // AccessDeniedException thrown = Assertions.assertThrows(AccessDeniedException.class, () -> {
-        mockMvc
-                .perform(get("/token/sortedByValue"))
-                .andExpect(status().isUnauthorized());
-        // });
     }
 }
