@@ -1,5 +1,6 @@
 package at.ac.fhstp.crs;
 
+import at.ac.fhstp.crs.api.security.KeycloakConfiguration;
 import at.ac.fhstp.crs.model.Token;
 import at.ac.fhstp.crs.model.factories.JsonTokenFactory;
 import at.ac.fhstp.crs.service.TokenService;
@@ -14,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -30,13 +33,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
+@ContextConfiguration
 @SpringBootTest
+@EnableWebSecurity
 public class TokenRestControllerIntegrationTest {
 
     @MockBean
     TokenService tokenService;
     @Autowired
     WebApplicationContext webApplicationContext;
+    @Autowired
+    KeycloakConfiguration webSecurityConfig;
+
 
     MockMvc mockMvc;
 
@@ -44,45 +52,50 @@ public class TokenRestControllerIntegrationTest {
     private static Token tokenBTC, tokenETH, tokenSHT;
     private static ArrayList<Token> tokenList;
 
+    @BeforeEach
+    public void setup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        tokenList.clear();
+        tokenList.add(tokenBTC);
+    }
+
     @BeforeAll
-    public static void setupToken()
-    {
+    public static void setupToken() {
         JSONObject tokenJSON = new JSONObject(
-    "{\n" +
-            "    \"id\": 5,\n" +
-            "    \"name\": \"Bitcoin\",\n" +
-            "    \"symbol\": \"BTC\",\n" +
-            "    \"slug\": \"btc\",\n" +
-            "    \"quote\": {\n" +
-            "        \"EUR\": {\n" +
-            "            \"price\": 31821.643157297254,\n" +
-            "            \"percent_change_1h\": -0.53278065,\n" +
-            "            \"percent_change_24h\": -3.84403893,\n" +
-            "            \"percent_change_7d\": -15.13486758,\n" +
-            "        }\n" +
-            "    }\n" +
-            "}");
+                "{\n" +
+                        "    \"id\": 5,\n" +
+                        "    \"name\": \"Bitcoin\",\n" +
+                        "    \"symbol\": \"BTC\",\n" +
+                        "    \"slug\": \"btc\",\n" +
+                        "    \"quote\": {\n" +
+                        "        \"EUR\": {\n" +
+                        "            \"price\": 31821.643157297254,\n" +
+                        "            \"percent_change_1h\": -0.53278065,\n" +
+                        "            \"percent_change_24h\": -3.84403893,\n" +
+                        "            \"percent_change_7d\": -15.13486758,\n" +
+                        "        }\n" +
+                        "    }\n" +
+                        "}");
 
         tokenBTC = jtf.createModel(tokenJSON);
         tokenBTC.setId(5);
         tokenList = new ArrayList<Token>();
-        tokenList.add(tokenBTC);
 
         tokenJSON = new JSONObject(
-    "{\n" +
-            "    \"id\": 10,\n" +
-            "    \"name\": \"Ethereum\",\n" +
-            "    \"symbol\": \"ETH\",\n" +
-            "    \"slug\": \"eth\",\n" +
-            "    \"quote\": {\n" +
-            "        \"EUR\": {\n" +
-            "            \"price\": 3182.164315729725,\n" +
-            "            \"percent_change_1h\": -0.53278065,\n" +
-            "            \"percent_change_24h\": -3.84403893,\n" +
-            "            \"percent_change_7d\": -15.13486758,\n" +
-            "        }\n" +
-            "    }\n" +
-            "}");
+                "{\n" +
+                        "    \"id\": 10,\n" +
+                        "    \"name\": \"Ethereum\",\n" +
+                        "    \"symbol\": \"ETH\",\n" +
+                        "    \"slug\": \"eth\",\n" +
+                        "    \"quote\": {\n" +
+                        "        \"EUR\": {\n" +
+                        "            \"price\": 3182.164315729725,\n" +
+                        "            \"percent_change_1h\": -0.53278065,\n" +
+                        "            \"percent_change_24h\": -3.84403893,\n" +
+                        "            \"percent_change_7d\": -15.13486758,\n" +
+                        "        }\n" +
+                        "    }\n" +
+                        "}");
 
         tokenETH = jtf.createModel(tokenJSON);
         tokenETH.setId(10);
@@ -105,11 +118,6 @@ public class TokenRestControllerIntegrationTest {
 
         tokenSHT = jtf.createModel(tokenJSON);
         tokenSHT.setId(15);
-    }
-
-    @BeforeEach
-    public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
@@ -144,42 +152,42 @@ public class TokenRestControllerIntegrationTest {
                 .perform(get("/token"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", Matchers.hasSize(0)));
-        tokenList.add(tokenBTC);
     }
 
+    @WithMockUser(roles = {"data_creator"})
     @Test
     public void testAddOne() throws Exception {
         String requestJSONString =
-            "{\n" +
-                    "    \"id\": 10,\n" +
-                    "    \"name\": \"Ethereum\",\n" +
-                    "    \"symbol\": \"ETH\",\n" +
-                    "    \"slug\": \"eth\",\n" +
-                    "    \"quotes\": [\n" +
-                    "        {\n" +
-                    "            \"id\": 9,\n" +
-                    "            \"symbol\": \"EUR\",\n" +
-                    "            \"price\": 3182.164315729725,\n" +
-                    "            \"changeInPeriods\": [\n" +
-                    "                {\n" +
-                    "                    \"id\": 6,\n" +
-                    "                    \"period\": \"HOUR_1\",\n" +
-                    "                    \"price\": -0.53278065\n" +
-                    "                },\n" +
-                    "                {\n" +
-                    "                    \"id\": 7,\n" +
-                    "                    \"period\": \"HOURS_24\",\n" +
-                    "                    \"price\": -3.84403893\n" +
-                    "                },\n" +
-                    "                {\n" +
-                    "                    \"id\": 8,\n" +
-                    "                    \"period\": \"DAYS_7\",\n" +
-                    "                    \"price\": -15.13486758\n" +
-                    "                }\n" +
-                    "            ]\n" +
-                    "        }\n" +
-                    "    ]\n" +
-                    "}";
+                "{\n" +
+                        "    \"id\": 10,\n" +
+                        "    \"name\": \"Ethereum\",\n" +
+                        "    \"symbol\": \"ETH\",\n" +
+                        "    \"slug\": \"eth\",\n" +
+                        "    \"quotes\": [\n" +
+                        "        {\n" +
+                        "            \"id\": 9,\n" +
+                        "            \"symbol\": \"EUR\",\n" +
+                        "            \"price\": 3182.164315729725,\n" +
+                        "            \"changeInPeriods\": [\n" +
+                        "                {\n" +
+                        "                    \"id\": 6,\n" +
+                        "                    \"period\": \"HOUR_1\",\n" +
+                        "                    \"price\": -0.53278065\n" +
+                        "                },\n" +
+                        "                {\n" +
+                        "                    \"id\": 7,\n" +
+                        "                    \"period\": \"HOURS_24\",\n" +
+                        "                    \"price\": -3.84403893\n" +
+                        "                },\n" +
+                        "                {\n" +
+                        "                    \"id\": 8,\n" +
+                        "                    \"period\": \"DAYS_7\",\n" +
+                        "                    \"price\": -15.13486758\n" +
+                        "                }\n" +
+                        "            ]\n" +
+                        "        }\n" +
+                        "    ]\n" +
+                        "}";
 
         Mockito.when(tokenService.getAll()).thenReturn(tokenList);
         Mockito.when(tokenService.save(Mockito.any(Token.class)))
@@ -207,9 +215,9 @@ public class TokenRestControllerIntegrationTest {
                 .andExpect(jsonPath("$", Matchers.hasSize(2)))
                 .andExpect(jsonPath("$[0].symbol", Matchers.is("BTC")))
                 .andExpect(jsonPath("$[1].symbol", Matchers.is("ETH")));
-        tokenList.remove(tokenETH);
     }
 
+    @WithMockUser(roles = {"data_creator"})
     @Test
     public void testUpdateOne() throws Exception {
         String requestJSONString =
@@ -271,6 +279,27 @@ public class TokenRestControllerIntegrationTest {
                 .andExpect(jsonPath("$", Matchers.hasSize(2)))
                 .andExpect(jsonPath("$[0].symbol", Matchers.is("BTC")))
                 .andExpect(jsonPath("$[1].symbol", Matchers.is("SHT")));
-        tokenList.remove(tokenSHT);
+    }
+
+    @WithMockUser(roles = {"data_creator"})
+    @Test
+    public void getTokensSortedByValue() throws Exception {
+        Mockito.when(tokenService.getAll()).thenReturn(tokenList);
+
+        mockMvc
+                .perform(get("/token/sortedByValue"))
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser
+    @Test
+    public void getTokensSortedByValueWithoutAuthentication() throws Exception {
+        Mockito.when(tokenService.getAll()).thenReturn(tokenList);
+
+        // AccessDeniedException thrown = Assertions.assertThrows(AccessDeniedException.class, () -> {
+        mockMvc
+                .perform(get("/token/sortedByValue"))
+                .andExpect(status().isUnauthorized());
+        // });
     }
 }

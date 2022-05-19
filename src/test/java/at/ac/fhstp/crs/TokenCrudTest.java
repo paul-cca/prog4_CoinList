@@ -26,7 +26,7 @@ public class TokenCrudTest {
 
     @Test
     @BeforeEach
-    public void createToken() {
+    public void createAndGetToken() {
         QuoteBuilder quoteBuilder = new QuoteBuilder("EUR");
         quoteBuilder.setPrice(12.4f).addPercentageChange(ETokenChangePeriod.HOURS_24, 3.56f);
         q1 = quoteBuilder.toQuote();
